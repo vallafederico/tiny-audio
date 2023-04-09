@@ -1,0 +1,25 @@
+{
+  "name": "tiny-audio",
+  "version": "0.0.1",
+  "description": "A simple, performance-focused audio library with global audio handling and individual sound controls.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "nope"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vallafederico/tiny-audio.git"
+  },
+  "keywords": [
+    "sound",
+    "audio",
+    "javascript",
+    "animation"
+  ],
+  "author": "Federico Valla @vallafederico",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vallafederico/tiny-audio/issues"
+  },
+  "homepage": "https://github.com/vallafederico/tiny-audio#readme"
+}
