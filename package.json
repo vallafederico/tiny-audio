@@ -1,6 +1,6 @@
 {
   "name": "tiny-audio",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A simple, performance-focused audio library with global audio handling and individual sound controls.",
   "main": "src/index.js",
   "scripts": {
