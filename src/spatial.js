@@ -3,7 +3,7 @@ import { Audio } from "./audio.js";
 /**
  * The Spatial class extends the Audio class and adds spatialization functionality.
  */
-class Spatial extends Audio {
+export class Spatial extends Audio {
   /**
    * Creates a new Spatial instance.
    * @param {string|string[]} src - The audio source(s) for the sound.

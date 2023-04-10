@@ -1,24 +1,28 @@
 import "./style.css";
-import { Master, Sound, SpatialSound } from "../src/index.js";
+import { Master, Audio, Spatial } from "../src/index.js";
 
-// console.log(Master, Sound, SpatialSound);
+// import sound1wav from "./src/sound/eating.wav";
+import sound1mp from "./src/sound/eating.mp3";
 
-import sound1 from "./src/sound/eating.wav";
-
-const master = new Master();
-master.initializeSounds([
-  {
-    name: "sound1",
-    src: sound1,
-    options: { volume: 0.5, loop: true, autoPlay: true },
-  },
-]);
+const mySound = new Audio([sound1mp], "mySound", {
+  loop: true,
+  volume: 0.5,
+});
 
 document.onclick = () => {
-  master.play("sound1");
+  // console.log("playing");
+  mySound.play();
 
   setTimeout(() => {
-    master.setSoundVolume("sound1", 1);
-    console.log("sound volume");
-  }, 5000);
+    console.log("fade to .2");
+    // Set the volume to 50%
+    // mySound.setVolume(0.9);
+    // mySound.play();
+    mySound.fadeVolume(0.0, 2);
+
+    setTimeout(() => {
+      console.log("fade to 1");
+      mySound.fadeVolume(1, 5);
+    }, 3000);
+  }, 3000);
 };
