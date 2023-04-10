@@ -1,9 +1,15 @@
-// Add this import at the beginning of the file
-// import { Audio } from './audio.js';
-// import { Spatial } from './spatial.js';
-// import { getSupportedAudioFormat } from './utils.js';
+import { Audio } from "./audio.js";
+import { Spatial } from "./spatial.js";
+import { getSupportedAudioFormat } from "./utils.js";
 
-class Master {
+/**
+ * The Master class manages audio context, global controls, and audio initialization.
+ */
+export class Master {
+  /**
+   * Initializes the audio context and attaches the Master instance to the window.
+   * @param {function} [onAudioContextAllowed] - Optional callback when audio context is allowed to start.
+   */
   constructor() {
     this.audioContext = new (window.AudioContext ||
       window.webkitAudioContext)();
@@ -34,6 +40,12 @@ class Master {
     }
   }
 
+  /**
+   * Initializes a single Audio or multiple Audios.
+   * @param {string|string[]|Object|Object[]} src - The audio source(s) to initialize.
+   * @param {Object} [options] - Options for each sound, such as loop, start volume, etc.
+   * @returns {Audio|Audio[]} The initialized Audio instance(s).
+   */
   initAudio(src, name, options = {}) {
     const supportedSrc = getSupportedAudioFormat(src);
     const audio = new Audio(supportedSrc, name, options, this);
@@ -41,6 +53,12 @@ class Master {
     return audio;
   }
 
+  /**
+   * Initializes a single Spatial or multiple Spatials.
+   * @param {string|string[]|Object|Object[]} src - The audio source(s) to initialize.
+   * @param {Object} [options] - Options for each sound, such as loop, start volume, etc.
+   * @returns {Spatial|Spatial[]} The initialized Spatial instance(s).
+   */
   initSpatialAudio(src, name, options = {}) {
     const supportedSrc = getSupportedAudioFormat(src);
     const spatialAudio = new Spatial(supportedSrc, name, options, this);
@@ -48,6 +66,12 @@ class Master {
     return spatialAudio;
   }
 
+  /**
+   * Initializes a single Audio or multiple Audios.
+   * @param {string|string[]|Object|Object[]} src - The audio source(s) to initialize.
+   * @param {Object} [options] - Options for each sound, such as loop, start volume, etc.
+   * @returns {Audio|Audio[]} The initialized Audio instance(s).
+   */
   initAudios(audios) {
     if (!Array.isArray(audios)) {
       audios = [audios];
@@ -71,10 +95,19 @@ class Master {
     }
   }
 
+  /**
+   * Sets the global volume for all initialized Audio instances.
+   * @param {number} volume - The target volume.
+   */
   setGlobalVolume(volume) {
     this.globalGainNode.gain.value = volume;
   }
 
+  /**
+   * Fades the global volume for all initialized Audio instances.
+   * @param {number} targetVolume - The target volume.
+   * @param {number} duration - The duration of the fade in seconds.
+   */
   fadeGlobalVolume(targetVolume, duration) {
     this.globalGainNode.gain.linearRampToValueAtTime(
       targetVolume,
@@ -82,14 +115,27 @@ class Master {
     );
   }
 
+  /**
+   * Plays all initialized Audio instances.
+   */
   playAll() {
     this.sounds.forEach((audio) => audio.play());
   }
 
+  /**
+   * Pauses all initialized Audio instances.
+   */
   pauseAll() {
     this.sounds.forEach((audio) => audio.pause());
   }
 
+  /**
+   * Sets the position of a single active Spatial instance by its name or index.
+   * @param {string|number} nameOrIndex - The name or index of the Spatial instance to update.
+   * @param {number} x - The X position.
+   * @param {number} y - The Y position.
+   * @param {number} z - The Z position.
+   */
   setSpatialPosition(nameOrIndex, x, y, z) {
     const audio = this.getAudioByNameOrIndex(nameOrIndex);
     if (audio instanceof Spatial) {
@@ -97,6 +143,12 @@ class Master {
     }
   }
 
+  /**
+   * Updates the position of all active Spatial instances based on a single reference position.
+   * @param {number} x - The X position of the reference point.
+   * @param {number} y - The Y position of the reference point.
+   * @param {number} z - The Z position of the reference point.
+   */
   updateSpatialPositionFromPoint(nameOrIndex, point) {
     const audio = this.getAudioByNameOrIndex(nameOrIndex);
     if (audio instanceof Spatial) {
@@ -104,6 +156,12 @@ class Master {
     }
   }
 
+  /**
+   * Updates the position of all active Spatial instances based on a single reference position.
+   * @param {number} x - The X position of the reference point.
+   * @param {number} y - The Y position of the reference point.
+   * @param {number} z - The Z position of the reference point.
+   */
   updateAllSpatialPositions(referencePoint) {
     const soundsLength = this.sounds.length;
     for (let i = 0; i < soundsLength; i++) {
