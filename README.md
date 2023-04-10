@@ -1,28 +1,64 @@
 # Tiny Audio
 
 ## Overview
+
 Tiny Audio is a simple, ultra-optimized library for handling sound on the web. It is designed with a focus on memory efficiency and performance. The library consists of a Master class, Audio class, Spatial class, and shared utility functions.
+
+## Initialization
+
+To use Tiny Audio, import the required classes from their respective files, and create instances of the classes as needed. The Master class will automatically attach itself to the window object and wait for the audio context to be allowed to start.
 
 ### Master Class
 
-The Master class holds the audio context and can be created only once. It attaches itself to the window with the window.audioMaster name. It provides global controls for all the initialized Audio instances, such as controlling global volume, playing, and pausing all sounds.
+The `Master` class holds the audio context and can be created only once. It attaches itself to the window with the window.audioMaster name. It provides global controls for all the initialized Audio instances, such as controlling global volume, playing, and pausing all sounds.
 
-You can initialize Audio instances from the Master class by providing a single src or an array of objects with a src (that can be a single source or an array of different format sources) and a name. You can control the individual sound by calling the Master class and specifying the name of the sound.
+You can initialize `Audio` instances from the `Master` class by providing a single src or an array of objects with a src (that can be a single source or an array of different format sources) and a name. You can control the individual sound by calling the Master class and specifying the name of the sound.
+
+| Function                                          | Description                                                                                                                                                           |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `constructor()`                                   | Instantiates the Master class. This class can only be created once and is attached to the `window` object with the name `window.audioMaster`.                         |
+| `initAudios(audioData)`                           | Initializes one or more Audio instances based on the provided `audioData`. `audioData` can be a single object, an array of objects, or an array of arrays of objects. |
+| `play(nameOrIndex)`                               | Plays the audio with the specified name or index.                                                                                                                     |
+| `pause(nameOrIndex)`                              | Pauses the audio with the specified name or index.                                                                                                                    |
+| `setVolume(nameOrIndex, volume)`                  | Sets the volume for the audio with the specified name or index.                                                                                                       |
+| `fadeVolume(nameOrIndex, targetVolume, duration)` | Fades the volume of the audio with the specified name or index to the target volume over the specified duration.                                                      |
+| `playAll()`                                       | Plays all initialized audios.                                                                                                                                         |
+| `pauseAll()`                                      | Pauses all initialized audios.                                                                                                                                        |
+| `setGlobalVolume(volume)`                         | Sets the global volume for all audios.                                                                                                                                |
+| `fadeGlobalVolume(targetVolume, duration)`        | Fades the global volume to the target volume over the specified duration.                                                                                             |
+| `setSpatialPosition(nameOrIndex, x, y, z)`        | Sets the position of the Spatial audio with the specified name or index.                                                                                              |
+| `updateAllSpatialPositions(referencePoint)`       | Updates the position of all active Spatial audios based on the provided reference point.                                                                              |
 
 ### Audio Class
 
-The Audio class represents a single Audio item, which can have a single src or an array of different audio formats. An instance of the Audio class can play, pause, and set the volume of the sound, as well as fade the volume over time.
+The `Audio` class represents a single `Audio` item, which can have a single src or an array of different audio formats. An instance of the `Audio` class can play, pause, and set the volume of the sound, as well as fade the volume over time.
 
 Every Audio instance attaches itself automatically to the Master class and creates it if it doesn't exist.
 
+| Function                                  | Description                                                                                                    |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `constructor(src, name, options, master)` | Instantiates the Audio class with the specified `src`, `name`, `options`, and `master` reference.              |
+| `loadAudio(url, callback)`                | Loads the audio file from the specified `url` and calls the `callback` function with the decoded audio buffer. |
+| `play()`                                  | Plays the audio instance.                                                                                      |
+| `pause()`                                 | Pauses the audio instance.                                                                                     |
+| `setVolume(volume)`                       | Sets the volume for the audio instance.                                                                        |
+| `fadeVolume(targetVolume, duration)`      | Fades the volume of the audio instance to the target volume over the specified duration.                       |
+
 ### Spatial Class
 
-The Spatial class extends the Audio class, adding the ability to spatialize the audio with controls for setting the position. You can set the spatial position from a given point in space or use the default position (0, 0, 0).
+The `Spatial` class extends the `Audio` class, adding the ability to spatialize the audio with controls for setting the position. You can set the spatial position from a given point in space or use the default position (0, 0, 0).
 
-## Initialization
-To use Tiny Audio, import the required classes from their respective files, and create instances of the classes as needed. The Master class will automatically attach itself to the window object and wait for the audio context to be allowed to start.
+| Function                                  | Description                                                                                                                    |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `constructor(src, name, options, master)` | Instantiates the Spatial class with the specified `src`, `name`, `options`, and `master` reference, extending the Audio class. |
+| `setPosition(x, y, z)`                    | Sets the position of the Spatial audio instance with the specified `x`, `y`, and `z` coordinates.                              |
+| `setPositionFromPoint(point)`             | Sets the position of the Spatial audio instance using the provided `point` object with `x`, `y`, and `z` properties.           |
 
-## Example Usage
+## Examples
+
+```javascript
+import { Master, Audio, Spatial } from "./audio.js";
+```
 
 ### Single Audio Instance
 

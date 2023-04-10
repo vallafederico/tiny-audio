@@ -1,25 +1,35 @@
 /**
- * Checks the provided audio sources and returns the best one supported by the current browser.
- * @param {string|string[]} src - A single or an array of audio sources.
- * @returns {string} The best supported audio source for the current browser.
+ * Returns the first supported audio format in the provided list of sources.
+ *
+ * @param {string[]} sources - An array of audio sources with different formats.
+ * @returns {string|null} The first supported audio source or null if none are supported.
  */
-function getSupportedAudioFormat(src) {
-  if (typeof src === "string") {
-    return src;
-  }
-
-  const audio = new window.Audio();
-
-  for (let i = 0; i < src.length; i++) {
-    const format = src[i].split(".").pop();
-    const canPlay = audio.canPlayType(`audio/${format}`);
-    if (canPlay === "probably" || canPlay === "maybe") {
-      return src[i];
+export function getSupportedAudioFormat(sources) {
+  const audioElement = document.createElement("audio");
+  for (const source of sources) {
+    const ext = source.split(".").pop().toLowerCase();
+    const type = getMimeType(ext);
+    if (type && audioElement.canPlayType(type)) {
+      return source;
     }
   }
-
-  console.error("No compatible audio format found in the provided sources.");
   return null;
 }
 
-export { getSupportedAudioFormat };
+/**
+ * Returns the MIME type corresponding to the provided file extension.
+ *
+ * @param {string} extension - The file extension of the audio format.
+ * @returns {string|null} The MIME type for the provided extension or null if the extension is not recognized.
+ */
+function getMimeType(extension) {
+  const mimeTypes = {
+    mp3: "audio/mpeg",
+    wav: "audio/wav",
+    ogg: "audio/ogg",
+    aac: "audio/aac",
+    webm: "audio/webm",
+    flac: "audio/flac",
+  };
+  return mimeTypes[extension] || null;
+}
